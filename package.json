@@ -6,9 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Italovini223/my-shopping-list-API.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Italovini223/my-shopping-list-API/issues"
+  },
+  "homepage": "https://github.com/Italovini223/my-shopping-list-API#readme",
   "dependencies": {
     "express": "^4.18.1"
   }
