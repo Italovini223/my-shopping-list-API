@@ -20,6 +20,10 @@ class UserControllers {
       message: "User registered successfully"
     });
   }
+
+  async update(request, response) {
+    
+  }
 };
 
 module.exports = UserControllers;
