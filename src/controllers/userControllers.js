@@ -1,4 +1,4 @@
-export class UserControllers {
+class UserControllers {
   create(request, response){
     const {name, email, password} = request.body;
     
