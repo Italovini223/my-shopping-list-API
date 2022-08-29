@@ -5,12 +5,14 @@ const routes = require("./routes");
 
 const app = express();
 
+const appError = require("./utils/appError");
+
 
 app.use(express.json())
 app.use(routes)
 
 app.use((error, request, response, next) => {
-  if(error instanceof AppError){
+  if(error instanceof appError){
     return response.status(error.statusCode).json({
       status: "Invalid entry",
       message: error.message
