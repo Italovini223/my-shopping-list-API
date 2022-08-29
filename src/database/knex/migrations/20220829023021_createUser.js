@@ -3,7 +3,7 @@ exports.up = knex => knex.schema.createTable("users", table => {
 
   table.text("name");
   table.text("email");
-  table.password("password");
+  table.text("password");
 
   table.text("avatar");
 
