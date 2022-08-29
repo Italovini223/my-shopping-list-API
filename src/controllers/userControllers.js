@@ -1,3 +1,4 @@
+const knex = require("../database/knex");
 class UserControllers {
   create(request, response){
     const {name, email, password} = request.body;
