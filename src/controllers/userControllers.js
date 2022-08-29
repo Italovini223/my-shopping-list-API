@@ -7,13 +7,17 @@ class UserControllers {
     const checkUserExists = await knex("users").where({email});
 
     if(checkUserExists){
-      throw new appError("User already exists");
+      throw new appError("User already exists")
+    } else {
+      await knex("users").insert({
+        name,
+        email,
+        password
+      });
     }
-    
-    await knex("users").insert({
-      name,
-      email,
-      password
+
+    return response.status(200).json({
+      message: "User registered successfully"
     });
   }
 };
