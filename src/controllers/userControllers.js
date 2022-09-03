@@ -1,6 +1,6 @@
 const knex = require("../database/knex");
 const appError = require("../utils/appError")
-const {hash} = require("bcryptjs");
+const {hash, compare} = require("bcryptjs");
 const sqliteConnection = require("../database/sqlite")
 
 class UserControllers {
@@ -36,7 +36,21 @@ class UserControllers {
 
     if(checkUserExists && checkUserExists.id !== user.id){
      throw new appError("email is already in use");
+    } 
+
+    if(password && !old_password) {
+      throw new appError("please entry your old password");
     }
+
+    if(password && old_password) {
+      const checkOldPassword = await compare(old_password, user.password);
+
+      if(!checkOldPassword) {
+        throw new appError("old password is incorrect");
+      }
+    }
+
+    
     
   }
 };
