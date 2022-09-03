@@ -31,11 +31,11 @@ class UserControllers {
     const {name, email, password, old_password} = request.body;
     const {id} = request.params;
 
-    const user = await knex("users").where({id});
-    const checkUserExists = await knex("users").where({email});
+    const user = await knex("users").where({id}).first();
+    const checkUserExists = await knex("users").where({email}).first();
 
     if(checkUserExists && checkUserExists.id !== user.id){
-     throw new appError("this email is already in use")
+     throw new appError("email is already in use");
     }
     
   }
