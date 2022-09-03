@@ -30,6 +30,13 @@ class UserControllers {
   async update(request, response) {
     const {name, email, password, old_password} = request.body;
     const {id} = request.params;
+
+    const user = await knex("users").where({id});
+    const checkUserExists = await knex("users").where({email});
+
+    if(checkUserExists && checkUserExists.id !== user.id){
+     throw new appError("this email is already in use")
+    }
     
   }
 };
