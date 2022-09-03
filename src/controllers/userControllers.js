@@ -31,8 +31,10 @@ class UserControllers {
     const {name, email, password, old_password} = request.body;
     const {id} = request.params;
 
+    const database = await sqliteConnection();
+
     const user = await knex("users").where({id}).first();
-    const checkUserExists = await knex("users").where({email}).first();
+    const checkUserExists = await database.get("SELECT * FROM users WHERE email = (?)", [email])
 
     if(checkUserExists && checkUserExists.id !== user.id){
      throw new appError("email is already in use");
@@ -48,9 +50,10 @@ class UserControllers {
       if(!checkOldPassword) {
         throw new appError("old password is incorrect");
       }
+
+      const hashedPassword = await hash(password, 8);
     }
 
-    const hashedPassword = await hash(password, 8);
 
     
     
