@@ -50,6 +50,8 @@ class UserControllers {
       }
     }
 
+    const hashedPassword = await hash(password, 8);
+
     
     
   }
