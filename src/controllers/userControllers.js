@@ -51,12 +51,22 @@ class UserControllers {
         throw new appError("old password is incorrect");
       }
 
-      const hashedPassword = await hash(password, 8);
+      user.password = await hash(password, 8);
     }
 
+    user.name = name ?? user.name;
+    user.email = email ?? user.email;
 
-    
-    
+
+   await knex("users").where({id}).update({
+    name: user.name,
+    email: user.email,
+    password: user.password
+   });
+
+   return response.json({
+    message: "user information updated successfully"
+   });
   }
 };
 
