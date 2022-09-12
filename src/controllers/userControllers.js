@@ -68,6 +68,10 @@ class UserControllers {
     message: "user information updated successfully"
    });
   }
+
+  async delete(request, response) {
+    
+  }
 };
 
 module.exports = UserControllers;
