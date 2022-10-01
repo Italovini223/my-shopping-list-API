@@ -38,6 +38,14 @@ class ListControllers {
       products
     })
   }
+
+  async index(request, response) {
+    const {user_id} = request.params;
+
+    const lists = await knex("list").where({user_id}).orderBy("title");
+
+    return response.json(lists);
+  }
 }
 
 module.exports = ListControllers;
