@@ -3,3 +3,5 @@ class ListControllers {
     
   }
 }
+
+module.exports = ListControllers;
