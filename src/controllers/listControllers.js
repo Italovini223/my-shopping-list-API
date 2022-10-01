@@ -26,6 +26,18 @@ class ListControllers {
 
 
   }
+
+  async show(request, response){
+    const {id} = request.params;
+
+    const list = await knex("list").where({id});
+    const products = await knex("products").where({list_id: id});
+
+    return response.json({
+      ...list,
+      products
+    })
+  }
 }
 
 module.exports = ListControllers;
