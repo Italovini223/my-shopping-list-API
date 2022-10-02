@@ -40,8 +40,7 @@ class ListControllers {
   }
 
   async index(request, response) {
-    const {user_id} = request.params;
-    const {title, products} = request.query;
+    const {title, products, user_id} = request.query;
 
     let lists;
 
@@ -70,7 +69,13 @@ class ListControllers {
     return response.json(lists);
   }
 
-  
+  async delete(request, response){
+    const{id} = request.params;
+
+    await knex("list").where({id}).delete();
+
+    return response.json("lista deletada com sucesso!");
+  }
 }
 
 module.exports = ListControllers;
