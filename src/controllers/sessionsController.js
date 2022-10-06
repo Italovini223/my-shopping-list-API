@@ -2,7 +2,7 @@ const knex = require('../database/knex');
 const appError = require('../utils/appError');
 const {compare} = require('bcryptjs');
 
-class sessionsController {
+class SessionsController {
   async create(request, response){
     const {email, password} = request.body;
 
@@ -23,3 +23,5 @@ class sessionsController {
     });
   }
 }
+
+module.exports = SessionsController;

@@ -16,7 +16,7 @@ app.use(routes)
 
 app.use((error, request, response, next) => {
   if(error instanceof appError){
-    return response.status(400).json({
+    return response.status(error.statusCode).json({
       status: "Invalid entry",
       message: error.message
     });
