@@ -6,6 +6,8 @@ exports.up = knex => knex.schema.createTable("products", table => {
   table.integer("list_id").references("id").inTable("list").onDelete("CASCADE");
 
   table.text("name");
+  table.integer("quantity");
+  table.decimal("value");
 
 })
 

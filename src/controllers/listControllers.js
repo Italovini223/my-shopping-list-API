@@ -3,8 +3,9 @@ const appError = require('../utils/appError')
 
 class ListControllers {
  async create(request, response){
-    const {user_id} = request.params;
+    const user_id = request.user.id
     const {title, description, products} = request.body;
+
 
     const list_id = await knex("list").insert({
     title,
@@ -16,14 +17,15 @@ class ListControllers {
       return {
         user_id,
         list_id,
-        name: product
+        name: product.name,
+        quantity: product.quantity,
+        value: product.value
       }
     });
 
     await knex("products").insert(productsInsert);
 
     return response.status(201).json("lista criada com sucesso");
-
 
   }
 
@@ -40,33 +42,15 @@ class ListControllers {
   }
 
   async index(request, response) {
-    const {title, products, user_id} = request.query;
+    const user_id = request.user.id;
+    const {title} = request.query;
 
-    let lists;
+    const lists = await knex("list").where({user_id})
+    .whereLike("title",`%${title}%`)
+    .orderBy("title");
 
-    if(products) {
-      const filteredProducts = products.split(",").map(product => product.trim());
-
-      lists = await knex("products")
-      .select([
-        "list.id",
-        "list.title",
-        "products.name",
-        "list.user_id"
-      ])
-      .where("list.user_id", user_id)
-      .whereLike("list.title", `%${title}%`)
-      .whereIn("products.name", filteredProducts)
-      .innerJoin("list", "list.id", "products.list_id")
-    } else {
       
-      lists = await knex("list").where({user_id})
-      .whereLike("title",`%${title}%`)
-      .orderBy("title");
-    }
-
-
-    return response.json(lists);
+    return response.json(lists)
   }
 
   async delete(request, response){

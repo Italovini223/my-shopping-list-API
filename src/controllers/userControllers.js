@@ -78,6 +78,18 @@ class UserControllers {
       message: "User deleted successfully"
     })
   }
+
+  async search(request, response) {
+    const {user_name} = request.params;
+
+    const users = await knex("users").whereLike('name', `%${user_name}%`);
+
+    if(!users){
+      throw new appError('Nenhum usuário foi encontrado com este nome', 404);
+    }
+
+    return response.json();
+  }
 };
 
 module.exports = UserControllers;
