@@ -1,7 +1,8 @@
 const UserCreateService =  require('../services/UserCreateService');
+const UserDeleteService =  require('../services/UserDeleteService');
 const UserRepositoryInMemory  = require('../repositories/UserRepositoryInMemory');
 
-it("should be able to create a new user", async () => {
+it("should be able to delete a user", async () => {
   const user = {
     name: "teste",
     email: "teste@gmail",
@@ -10,7 +11,11 @@ it("should be able to create a new user", async () => {
 
   const userRepositoryInMemory = new UserRepositoryInMemory();
   const userCreateService = new UserCreateService(userRepositoryInMemory);
-  const userCrated = await userCreateService.execute(user);
+  const userCreated = await userCreateService.execute(user);
 
-  expect(userCrated).toHaveProperty("id")
-});
+  const userDeleteService = new UserDeleteService(userRepositoryInMemory);
+  const userDeleted = await userDeleteService.execute(userCreated);
+
+  expect(userDeleted).toEqual(undefined)
+
+})

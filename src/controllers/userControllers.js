@@ -1,8 +1,11 @@
-const knex = require("../database/knex");
-const appError = require("../utils/appError")
-const {hash, compare} = require("bcryptjs");
 const UserRepository = require('../repositories/UserRepository');
+
 const UserCreateService = require('../services/UserCreateService');
+const UserUpdateService = require('../services/UserUpdateService');
+const UserDeleteService = require('../services/UserDeleteService');
+const FindUserByNameService = require('../services/FindUserByNameService');
+
+
 
 const userRepository = new UserRepository();
 
@@ -20,40 +23,16 @@ class UserControllers {
 
   async update(request, response) {
     const {name, email, password, old_password} = request.body;
-    const {id} = request.params;
+    const user_id = request.user.id;
 
-    const database = await sqliteConnection();
-
-    const user = await knex("users").where({id}).first();
-    const checkUserExists = await database.get("SELECT * FROM users WHERE email = (?)", [email])
-
-    if(checkUserExists && checkUserExists.id !== user.id){
-     throw new appError("email is already in use");
-    } 
-
-    if(password && !old_password) {
-      throw new appError("please entry your old password");
-    }
-
-    if(password && old_password) {
-      const checkOldPassword = await compare(old_password, user.password);
-
-      if(!checkOldPassword) {
-        throw new appError("old password is incorrect");
-      }
-
-      user.password = await hash(password, 8);
-    }
-
-    user.name = name ?? user.name;
-    user.email = email ?? user.email;
-
-
-   await knex("users").where({id}).update({
-    name: user.name,
-    email: user.email,
-    password: user.password
-   });
+    const userUpdateService = new UserUpdateService(userRepository);
+    await userUpdateService.execute({
+      name,
+      email,
+      password,
+      old_password,
+      id: user_id
+    })
 
    return response.json({
     message: "user information updated successfully"
@@ -61,9 +40,10 @@ class UserControllers {
   }
 
   async delete(request, response) {
-    const {id} = request.params;
+    const {id} = request.user;
 
-    await knex("users").where({id}).delete()
+   const userDeleteService = new UserDeleteService(userRepository);
+   await userDeleteService.execute(id)
 
     return response.json({
       message: "User deleted successfully"
@@ -73,13 +53,10 @@ class UserControllers {
   async search(request, response) {
     const {user_name} = request.params;
 
-    const users = await knex("users").whereLike('name', `%${user_name}%`);
+    const findUserByNameService = new FindUserByNameService(userRepository);
+    const users = await findUserByNameService.execute(user_name);
 
-    if(!users){
-      throw new appError('Nenhum usuário foi encontrado com este nome', 404);
-    }
-
-    return response.json();
+    return response.json(users);
   }
 };
 
