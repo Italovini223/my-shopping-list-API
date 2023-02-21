@@ -1,4 +1,4 @@
-const {hash, compare} = require('crypto')
+const {hash, compare} = require('bcryptjs')
 const appError = require('../utils/appError')
 
 class UserUpdateService {
@@ -12,7 +12,7 @@ class UserUpdateService {
     if(email){
       const checkUserExists = await this.userRepository.findByEmail(email)
       if(checkUserExists && checkUserExists.id !== user.id){
-        throw new appError("email is already in use");
+        throw new appError("email is already in use", 401);
       } 
     }
    
@@ -25,7 +25,7 @@ class UserUpdateService {
       const checkOldPassword = await compare(old_password, user.password);
  
       if(!checkOldPassword) {
-        throw new appError("old password is incorrect");
+        throw new appError("old password is incorrect", 401);
       }
  
       user.password = await hash(password, 8);
