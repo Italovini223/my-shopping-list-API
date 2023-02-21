@@ -1,6 +1,6 @@
-const FindUserByNameService =  require('../services/FindUserByNameService');
-const UserRepositoryInMemory  = require('../repositories/UserRepositoryInMemory');
-const UserCreateService = require('../services/UserCreateService');
+const FindUserByNameService =  require('../../services/userServices/FindUserByNameService');
+const UserRepositoryInMemory  = require('../../repositories/UserRepositoryInMemory');
+const UserCreateService = require('../../services/userServices/UserCreateService');
 
 it("should be able to find a user by name", async () => {
   const user = {

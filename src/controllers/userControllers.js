@@ -1,9 +1,9 @@
 const UserRepository = require('../repositories/UserRepository');
 
-const UserCreateService = require('../services/UserCreateService');
-const UserUpdateService = require('../services/UserUpdateService');
-const UserDeleteService = require('../services/UserDeleteService');
-const FindUserByNameService = require('../services/FindUserByNameService');
+const UserCreateService = require('../services/userServices/UserCreateService');
+const UserUpdateService = require('../services/userServices/UserUpdateService');
+const UserDeleteService = require('../services/userServices/UserDeleteService');
+const FindUserByNameService = require('../services/userServices/FindUserByNameService');
 
 
 

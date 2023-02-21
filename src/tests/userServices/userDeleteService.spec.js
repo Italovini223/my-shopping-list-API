@@ -1,6 +1,6 @@
-const UserCreateService =  require('../services/UserCreateService');
-const UserDeleteService =  require('../services/UserDeleteService');
-const UserRepositoryInMemory  = require('../repositories/UserRepositoryInMemory');
+const UserCreateService =  require('../../services/userServices/UserCreateService');
+const UserDeleteService =  require('../../services/userServices/UserDeleteService');
+const UserRepositoryInMemory  = require('../../repositories/UserRepositoryInMemory');
 
 it("should be able to delete a user", async () => {
   const user = {
